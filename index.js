@@ -15,6 +15,17 @@ document.getElementById('file').addEventListener("change", function (e) {
       var a = canvas.setActiveObject(oImg);
       var dataURL = canvas.toDataURL({format: 'jpg', quality: 1});
     })
+    canvas.on('mouse:wheel', function(opt) {
+  var delta = opt.e.deltaY;
+  var pointer = canvas.getPointer(opt.e);
+  var zoom = canvas.getZoom();
+  zoom = zoom + delta/200;
+  if (zoom > 20) zoom = 20;
+  if (zoom < 0.01) zoom = 0.01;
+  canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
+  opt.e.preventDefault();
+  opt.e.stopPropagation();
+});
   };
   reader.readAsDataURL(file);
 });
